@@ -97,7 +97,12 @@ class RecHelper_ControllerApi_RecHelper extends bdApi_ControllerApi_Abstract
         while ($row = $stmt->fetch(Zend_Db::FETCH_ASSOC)) {
             if ($first) {
                 $first = false;
-                echo json_encode(array_keys($row));
+                echo json_encode([
+                    'action' => $this->_routeMatch->getAction(),
+                    'headers' => array_keys($row),
+                    'sql' => trim(preg_replace('/\s+/', ' ', $sql)),
+                    'total' => $stmt->rowCount(),
+                ]);
             }
 
             echo ',', json_encode(array_values($row));
