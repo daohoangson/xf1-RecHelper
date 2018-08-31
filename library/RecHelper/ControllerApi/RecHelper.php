@@ -42,10 +42,13 @@ class RecHelper_ControllerApi_RecHelper extends bdApi_ControllerApi_Abstract
         }
 
         return $this->_actionData("
-            SELECT lc.like_user_id, p.thread_id
+            SELECT lc.like_user_id, t.thread_id
             FROM xf_liked_content AS lc
             INNER JOIN xf_post AS p
                 ON p.post_id = lc.content_id
+            INNER JOIN xf_thread AS t
+                ON t.thread_id = p.thread_id
+                AND t.first_post_id = p.post_id
             WHERE lc.content_type = 'post'
                 AND lc.like_date > {$likeDate}
         ");
