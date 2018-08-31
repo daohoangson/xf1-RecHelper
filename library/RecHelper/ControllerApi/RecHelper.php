@@ -11,7 +11,7 @@ class RecHelper_ControllerApi_RecHelper extends bdApi_ControllerApi_Abstract
 
         $data = [
             'data_links' => [
-                bdApi_Data_Helper_Core::safeBuildApiLink('rec-helper/user-followings', null, ['follow_date' => $d30]),
+                bdApi_Data_Helper_Core::safeBuildApiLink('rec-helper/user-followings'),
                 bdApi_Data_Helper_Core::safeBuildApiLink('rec-helper/user-forums'),
                 bdApi_Data_Helper_Core::safeBuildApiLink('rec-helper/thread-likes', null, ['like_date' => $d30]),
                 bdApi_Data_Helper_Core::safeBuildApiLink('rec-helper/thread-posts', null, ['post_date' => $d30]),
@@ -25,13 +25,7 @@ class RecHelper_ControllerApi_RecHelper extends bdApi_ControllerApi_Abstract
 
     public function actionGetUserFollowings()
     {
-        /** @var int $followDate */
-        $followDate = $this->_input->filterSingle('follow_date', XenForo_Input::UINT);
-        if (empty($followDate)) {
-            return $this->responseNoPermission();
-        }
-
-        return $this->_actionData("SELECT user_id, follow_user_id FROM xf_user_follow WHERE follow_date > {$followDate}");
+        return $this->_actionData('SELECT user_id, follow_user_id FROM xf_user_follow');
     }
 
     public function actionGetUserForums()
